@@ -1,0 +1,12 @@
+export class Ingredient {
+  // public name: string;
+  // public amount: number;
+
+  // constructor (name, amount) {
+  //   this.name = name;
+  //   this.amount = amount;
+  // }
+  // A shortcut to do that is the next way
+
+  constructor(public name: string, public amount: number) {}
+}
