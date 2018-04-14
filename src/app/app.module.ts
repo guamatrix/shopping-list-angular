@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -35,7 +36,9 @@ import { StartRecipesComponent } from './recipes/start-recipes/start-recipes.com
   ],
   imports: [
     BrowserModule,
-    RountingModule
+    RountingModule,
+    ReactiveFormsModule
+
   ],
   providers: [ShoppingListService],
   bootstrap: [AppComponent]
