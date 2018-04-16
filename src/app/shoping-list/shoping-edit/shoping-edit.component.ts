@@ -35,7 +35,6 @@ export class ShopingEditComponent implements OnInit, OnDestroy {
   }
 
   onAddItem() {
-    console.log(this.slForm);
     const { name, amount } = this.slForm.value;
     if (name && amount) {
       const newIngredient = new Ingredient(name, amount);

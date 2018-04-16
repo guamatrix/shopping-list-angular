@@ -10,7 +10,7 @@
             class="form-control"
             id="name"
             formControlName="name"
-            required>
+            >
             <span *ngIf="slForm.get('name').touched && !slForm.get('name').valid" class="text-help text-danger">{{showError("name")}}</span>
         </div>
         <div class="col-2 form-group">

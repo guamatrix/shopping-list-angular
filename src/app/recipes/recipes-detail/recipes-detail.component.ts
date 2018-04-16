@@ -12,6 +12,7 @@ import { Ingredient } from '../../shared/ingredient.module';
 })
 export class RecipesDetailComponent implements OnInit {
   detail: Recipe;
+  indexRecipe: number;
   constructor(private recipesService: ReceipesServices,
     private router: Router,
     private routingActive: ActivatedRoute
@@ -19,15 +20,24 @@ export class RecipesDetailComponent implements OnInit {
 
   ngOnInit() {
     this.routingActive.params.subscribe(
-      (params) => { this.detail = this.recipesService.getRecipe(+params.id); }
+      (params) => {
+        this.indexRecipe = +params.id;
+        this.detail = this.recipesService.getRecipe(this.indexRecipe);
+      }
     );
   }
 
   onAddIngredient() {
     this.recipesService.addIngredientsToSL(this.detail.ingredients);
+    // this.router.navigate(['../'], { relativeTo: this.routingActive });
   }
 
   onEdit() {
     this.router.navigate(['edit'], { relativeTo: this.routingActive });
+  }
+
+  onDelete() {
+    this.recipesService.deleteRecipe(this.indexRecipe);
+    this.router.navigate(['../'], { relativeTo: this.routingActive });
   }
 }
