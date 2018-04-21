@@ -1,28 +1,24 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
-import { RecipesComponent } from './recipes/recipes.component';
-import { ShopingListComponent } from './shoping-list/shoping-list.component';
-import { EditRecipesComponent } from './recipes/edit-recipes/edit-recipes.component';
-import { RecipesDetailComponent } from './recipes/recipes-detail/recipes-detail.component';
-import { StartRecipesComponent } from './recipes/start-recipes/start-recipes.component';
+import { HomeComponent } from './core/home/home.component';
 
 const router: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
-  { path: 'recipes', component: RecipesComponent, children: [
-    { path: '', component: StartRecipesComponent, pathMatch: 'full' },
-    { path: 'new', component: EditRecipesComponent },
-    { path: ':id', component: RecipesDetailComponent },
-    { path: ':id/edit', component: EditRecipesComponent }
-  ] },
-  { path: 'shopping-list', component: ShopingListComponent },
-  { path: '**', redirectTo: '/recipes' }
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'recipes', loadChildren: 'app/recipes/recipes.module#RecipesModule' },
+  { path: 'sigin', loadChildren: 'app/auth/auth.module#AuthModule' },
+  { path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
+  { path: 'shopping-list', loadChildren: 'app/shoping-list/shopping-list.module#ShoppingListModule' },
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(router)],
+  imports: [RouterModule.forRoot(router, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
-
+// preloading can be pass a custom function that implements PreloadingStrategy that
+// can check if the route has a preload in true
+// example { path: 'xxxx', loadchilren: 'xxxx', data: { preload: true }}
 export class RountingModule {}
 

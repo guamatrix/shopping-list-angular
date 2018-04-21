@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+  <div class="col" *ngIf="isLogged()">
     <button class="btn btn-success" routerLink="new">New Recipe</button>
   </div>
 </div>

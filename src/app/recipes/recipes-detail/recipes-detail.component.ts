@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Recipe } from '../recipe.model';
 import { ReceipesServices } from '../recipes.service';
 import { Ingredient } from '../../shared/ingredient.module';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-recipes-detail',
@@ -15,7 +16,8 @@ export class RecipesDetailComponent implements OnInit {
   indexRecipe: number;
   constructor(private recipesService: ReceipesServices,
     private router: Router,
-    private routingActive: ActivatedRoute
+    private routingActive: ActivatedRoute,
+    private authSerice: AuthService
   ) { }
 
   ngOnInit() {
@@ -39,5 +41,9 @@ export class RecipesDetailComponent implements OnInit {
   onDelete() {
     this.recipesService.deleteRecipe(this.indexRecipe);
     this.router.navigate(['../'], { relativeTo: this.routingActive });
+  }
+
+  isLogged() {
+    return this.authSerice.isAuth();
   }
 }

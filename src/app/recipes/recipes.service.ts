@@ -65,4 +65,9 @@ export class ReceipesServices {
     this.recipes[index] = recipe;
     this.recipeChanged.next(this.recipes.slice());
   }
+
+  fetchServiceRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipeChanged.next(this.recipes.slice());
+  }
 }

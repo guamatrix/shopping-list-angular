@@ -26,8 +26,8 @@
       </div>
       <div class="row">
         <div class="col">
-          <button type="submit" class="btn btn-success">{{ isEdit ? ' Update' : 'Add'}}</button>
-          <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+          <button type="submit" class="btn btn-success" [disabled]="!slForm.valid">{{ isEdit ? ' Update' : 'Add'}}</button>
+          <button type="button" class="btn btn-danger" (click)="onDelete()" [disabled]="!(indexEdit >= 0)">Delete</button>
           <button type="button" class="btn btn-primary" (click)="onClear()">Clear</button>
         </div>
       </div>

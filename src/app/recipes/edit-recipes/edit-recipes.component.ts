@@ -32,7 +32,7 @@ export class EditRecipesComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['../']);
+    this.router.navigate(['../'], { relativeTo: this.routingActive });
   }
 
   onAddIngredient() {
