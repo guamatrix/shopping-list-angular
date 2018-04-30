@@ -1,41 +1,46 @@
 import { Ingredient } from '../shared/ingredient.module';
 import { Subject } from 'rxjs/Subject';
+import { Injectable } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
+import * as ActionShoppingList from './store/shoppin-list.actions';
+import { StateShoppinList } from './store/shoppin-list.reducer';
+import { selectAllIngredients, selectedIngredient, selectState } from './store/shopping-list.selectors';
+
+@Injectable()
 export class ShoppingListService {
-  private ingredients: Ingredient[] = [
-    new Ingredient('Apple', 5),
-    new Ingredient('Tomatoes', 3),
-    new Ingredient('Sauce', 2)
-  ];
 
-  ingredientsChanged = new Subject<Ingredient[]>();
-  ingredientSelected = new Subject<number>();
+  constructor(private store: Store<StateShoppinList>) {}
 
   getIngredients() {
-    return this.ingredients.slice();
-  }
-
-  getIngredient(index): Ingredient {
-    return { ...this.ingredients[index] };
+    return this.store.pipe(select(selectAllIngredients));
   }
 
   addIngredient(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
-    this.ingredientsChanged.next(this.ingredients.slice());
+    this.store.dispatch(new ActionShoppingList.AddIngredient(ingredient));
   }
 
   addIngredientFromRecipes(ingredients: Ingredient[]) {
-    this.ingredients.push(...ingredients);
-    this.ingredientsChanged.next(this.ingredients.slice());
+    this.store.dispatch(new ActionShoppingList.AddIngredients(ingredients));
   }
 
-  deleteIngredient(index: number) {
-    this.ingredients.splice(index, 1);
-    this.ingredientsChanged.next(this.ingredients.slice());
-    this.ingredientSelected.next(null);
+  deleteIngredient() {
+    this.store.dispatch(new ActionShoppingList.DeleteIngredient());
   }
 
   selectIngredient(index: number) {
-    this.ingredientSelected.next(index);
+    this.store.dispatch(new ActionShoppingList.SelectIngredient(index));
+  }
+
+  getShoppingList() {
+    return this.store.pipe(select(selectState));
+  }
+
+  getIngredientSelected() {
+    return this.store.pipe(select(selectedIngredient));
+  }
+
+  updateIngredient(ingredient: Ingredient) {
+    this.store.dispatch(new ActionShoppingList.UpdateIngredient(ingredient));
   }
 }

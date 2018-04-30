@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Ingredient } from '../shared/ingredient.module';
 import { ShoppingListService } from './shopping-list.service';
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { State, StateShoppinList } from './store/shoppin-list.reducer';
 
 @Component({
   selector: 'app-shoping-list',
@@ -12,31 +12,26 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ShopingListComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[];
-  selectedIngredient = -1;
+  selectedIngredient: number;
   suscriptionIngredients: Subscription;
-  suscriptionSelected: Subscription;
 
   constructor(private slService: ShoppingListService) { }
 
   ngOnInit() {
-    this.ingredients = this.slService.getIngredients();
-    this.suscriptionIngredients = this.slService.ingredientsChanged.subscribe(
-      (ingredients: Ingredient[]) => {
-        this.ingredients = this.slService.getIngredients();
-      }
-    );
-    this.suscriptionSelected = this.slService.ingredientSelected.subscribe(
-      (index: number) => { this.selectedIngredient = index; }
-    );
+    this.suscriptionIngredients = this.slService.getShoppingList()
+      .subscribe(
+        (state: State) => {
+          this.ingredients = state.ingredients;
+          this.selectedIngredient = state.indexSelected;
+        }
+      );
   }
 
   onSelectIngredient(index: number) {
-    this.selectedIngredient = index;
     this.slService.selectIngredient(index);
   }
 
   ngOnDestroy() {
     this.suscriptionIngredients.unsubscribe();
-    this.suscriptionSelected.unsubscribe();
   }
 }

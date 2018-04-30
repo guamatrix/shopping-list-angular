@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 import { HomeComponent } from './core/home/home.component';
+import { ShoppingListModule } from './shoping-list/shopping-list.module';
+
+const recipes = 'app/recipes/recipes.module#RecipesModule';
 
 const router: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

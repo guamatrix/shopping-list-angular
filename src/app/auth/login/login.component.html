@@ -6,6 +6,7 @@
         <label for="email">Email</label>
         <input type="email" id="email" class="form-control" formControlName="email">
       </div>
+      <!-- <app-custom-input name="email" label="Email" formControlName="email"></app-custom-input> -->
       <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" class="form-control" formControlName="password">
@@ -16,7 +17,7 @@
           [ngClass]="{ 'text-success': notError, 'text-danger': !notError }">
           {{ menssage }}</span>
       </div>
-      <button class="btn btn-success" type="submit" [disabled]="!formLogin.valid">Submit</button>
+      <button class="btn btn-success" type="submit">Submit</button>
     </form>
   </div>
 </div>

@@ -1,9 +1,12 @@
+import { Store, select } from '@ngrx/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Ingredient } from '../../shared/ingredient.module';
 import { ShoppingListService } from '../shopping-list.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { State } from '../store/shoppin-list.reducer';
+import { selectedIngredient } from '../store/shopping-list.selectors';
 
 @Component({
   selector: 'app-shoping-edit',
@@ -21,37 +24,42 @@ export class ShopingEditComponent implements OnInit, OnDestroy {
   indexEdit: number;
   suscription: Subscription;
 
-  constructor(private slService: ShoppingListService) {}
+  constructor(private slService: ShoppingListService,
+    private store: Store<State>) {}
 
   ngOnInit() {
-    this.suscription =  this.slService.ingredientSelected.subscribe(
-      (index: number) => {
-        this.isEdit = index != null;
-        this.indexEdit = index;
-        this.initForm();
-       }
-    );
-    this.initForm();
+    this.suscription = this.slService.getIngredientSelected()
+      .subscribe(
+        (state: { index: number, ingredient: Ingredient }) => {
+          console.log(state);
+          this.isEdit = state.index > -1;
+          this.indexEdit = state.index;
+          this.initForm(state.ingredient);
+        }
+      );
   }
 
   onAddItem() {
     const { name, amount } = this.slForm.value;
     if (name && amount) {
       const newIngredient = new Ingredient(name, amount);
-      this.slService.addIngredient(newIngredient);
+      if (this.isEdit) {
+        this.slService.updateIngredient(newIngredient);
+      } else {
+        this.slService.addIngredient(newIngredient);
+      }
     }
     this.slForm.reset();
     this.isEdit = false;
   }
 
-  private initForm() {
+  private initForm(ingredient: Ingredient) {
     let name = '';
     let amount = null;
 
     if (this.isEdit) {
-      const recipe = this.slService.getIngredient(this.indexEdit);
-      name = recipe.name;
-      amount = recipe.amount;
+      name = ingredient.name;
+      amount = ingredient.amount;
     }
     this.slForm = new FormGroup({
       name: new FormControl(name, Validators.required),
@@ -83,10 +91,7 @@ export class ShopingEditComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    if (this.indexEdit) {
-      this.slService.deleteIngredient(this.indexEdit);
-    }
-    this.slService.selectIngredient(undefined);
+    this.slService.deleteIngredient();
   }
 
   ngOnDestroy() {
