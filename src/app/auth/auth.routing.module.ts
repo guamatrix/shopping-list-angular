@@ -5,7 +5,6 @@ import { LoginComponent } from './login/login.component';
 import { ResponseService } from '../shared/response.service';
 
 const route: Routes = [
-  // { path: '', component: LoginComponent}
   { path: 'sigin', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '/home' }

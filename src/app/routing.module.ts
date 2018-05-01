@@ -10,8 +10,6 @@ const recipes = 'app/recipes/recipes.module#RecipesModule';
 const router: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  // { path: 'sigin', component: LoginComponent },
-  // { path: 'login', component: LoginComponent },
   // { path: 'sigin', loadChildren: 'app/auth/auth.module#AuthModule' },
   // { path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
   { path: 'recipes', loadChildren: 'app/recipes/recipes.module#RecipesModule' },

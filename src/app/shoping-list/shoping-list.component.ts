@@ -32,6 +32,7 @@ export class ShopingListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.slService.selectIngredient(-1);
     this.suscriptionIngredients.unsubscribe();
   }
 }
