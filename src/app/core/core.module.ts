@@ -10,6 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthService } from '../auth/auth.service';
 import { ResponseService } from '../shared/response.service';
 import { StoreService } from '../shared/store.service';
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -20,12 +21,14 @@ import { StoreService } from '../shared/store.service';
     RountingModule,
     BrowserModule,
     SharedModule,
+    AuthModule
   ],
   exports: [
     BrowserModule,
     SharedModule,
     HeaderComponent,
     RountingModule,
+    AuthModule
   ],
   providers: [
     ShoppingListService,

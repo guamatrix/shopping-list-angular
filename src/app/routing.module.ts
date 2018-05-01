@@ -3,17 +3,19 @@ import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 
 import { HomeComponent } from './core/home/home.component';
 import { ShoppingListModule } from './shoping-list/shopping-list.module';
+// import { LoginComponent } from './auth/login/login.component';
 
 const recipes = 'app/recipes/recipes.module#RecipesModule';
 
 const router: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  // { path: 'sigin', component: LoginComponent },
+  // { path: 'login', component: LoginComponent },
+  // { path: 'sigin', loadChildren: 'app/auth/auth.module#AuthModule' },
+  // { path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
   { path: 'recipes', loadChildren: 'app/recipes/recipes.module#RecipesModule' },
-  { path: 'sigin', loadChildren: 'app/auth/auth.module#AuthModule' },
-  { path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
   { path: 'shopping-list', loadChildren: 'app/shoping-list/shopping-list.module#ShoppingListModule' },
-  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({

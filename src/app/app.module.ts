@@ -18,10 +18,10 @@ import { reducers } from './store/app.reducer';
     CoreModule,
     HttpModule,
     StoreModule.forRoot(reducers),
-    // !environment.production ? StoreDevtoolsModule.instrument({
-    //   maxAge: 25,
-    //   logOnly: environment.production
-    // }) : [],
+    !environment.production ? StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    }) : [],
     // StoreRouterConnectingModule.forRoot({
     //   stateKey: 'router',
     // }),

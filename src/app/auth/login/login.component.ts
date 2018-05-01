@@ -16,26 +16,26 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLogin: boolean;
   notError: boolean;
   menssage: string;
-  subscription: Subscription;
+  subscription: Subscription[] = [];
   constructor(private route: ActivatedRoute,
     private responseService: ResponseService,
     private authService: AuthService) { }
 
   ngOnInit() {
     this.initForm();
-    this.route.parent.url.subscribe(
+    this.subscription.push(this.route.url.subscribe(
       (url: UrlSegment[]) => {
         this.isLogin = url[0].path === 'login';
       }
-    );
+    ));
 
-    this.subscription = this.responseService.fireResponse.subscribe(
+    this.subscription.push(this.responseService.fireResponse.subscribe(
       (status) => {
         console.log(status, this.isLogin);
         this.menssage = status.menssage;
         this.notError = status.ok;
       }
-    );
+    ));
   }
 
   initForm() {
@@ -56,6 +56,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription.map(sub => sub.unsubscribe());
   }
 }

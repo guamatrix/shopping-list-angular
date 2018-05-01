@@ -12,7 +12,7 @@
         <a [appHighLigth]="'green'" defaultColor="blue" class="nav-link">Shopping List</a>
       </li>
     </ul>
-    <ul class="nav justify-content-end" *ngIf="!isLogged()">
+    <ul class="nav justify-content-end" *ngIf="!isLogin">
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" routerLink="/sigin">Signup</a>
         </li>
@@ -20,7 +20,7 @@
           <a class="nav-link" routerLinkActive="active" routerLink="/login">Login</a>
         </li>
     </ul>
-    <div class="dropdown dropdown-nav" appDropdown *ngIf="isLogged()">
+    <div class="dropdown dropdown-nav" appDropdown *ngIf="isLogin">
       <a class="dropdown-toggle"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Manage
       </a>

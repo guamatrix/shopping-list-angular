@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Response } from '@angular/http';
-
+import { Observable } from 'rxjs/Observable';
 
 import { StoreService } from '../../shared/store.service';
 import { AuthService } from '../../auth/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +12,20 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./header.style.css']
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
+  // isLogin: Observable<boolean>;
+  isLogin: boolean;
+  subscription: Subscription;
   constructor(private storeSerive: StoreService,
     private authService: AuthService) {}
+
+  ngOnInit() {
+    this.subscription = this.authService.isAuth().subscribe(
+      (isAuth: boolean) => {
+        this.isLogin = isAuth;
+      }
+    );
+  }
 
   onSaveData() {
     this.storeSerive.saveStore()
@@ -28,11 +40,11 @@ export class HeaderComponent {
     this.storeSerive.getStore();
   }
 
-  isLogged() {
-    return this.authService.isAuth();
-  }
-
   logOff() {
     this.authService.logOff();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
