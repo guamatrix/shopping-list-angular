@@ -16,7 +16,7 @@
         </button>
         <div class="dropdown-menu">
           <a class="dropdown-item" (click)="onAddIngredient()">Add Ingredients to Shopping List</a>
-          <ng-template *ngIf="isLogged">
+          <ng-template [ngIf]="isLogged">
               <a class="dropdown-item" (click)="onEdit()">Edit Recipe</a>
               <a class="dropdown-item" (click)="onDelete()">Delete Recipe</a>
           </ng-template>

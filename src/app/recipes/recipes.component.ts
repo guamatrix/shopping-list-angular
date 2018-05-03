@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Recipe } from './recipe.model';
 import { ReceipesServices } from './recipes.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
+import { StateRecipe } from './store/recipe.reducer';
 
 @Component({
   selector: 'app-recipes',
@@ -10,33 +13,20 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./recipes.component.css'],
 })
 export class RecipesComponent implements OnInit, OnDestroy {
-  // selectedRecipe: number;
   recipes: Recipe[];
   suscriptionRecipes: Subscription;
-  // suscriptionRecipe: Subscription;
 
   constructor(private recipesService: ReceipesServices) { }
 
   ngOnInit() {
-    this.recipes = this.recipesService.getRecipes();
-    this.suscriptionRecipes = this.recipesService.recipeChanged.subscribe(
-      (recipe: Recipe[]) => {
-        this.recipes = recipe;
+    this.suscriptionRecipes = this.recipesService.getRecipes().subscribe(
+      (recipes: Recipe[]) => {
+        this.recipes = recipes;
       }
     );
-    // this.recipesService.recipeSelect.subscribe(
-    //   (index: number) => {
-    //     this.selectedRecipe = index;
-    //   }
-    // );
   }
 
-  // onSelectRecipe(index: number) {
-  //   this.selectedRecipe = index;
-  // }
-
   ngOnDestroy() {
-    // this.suscriptionRecipe.unsubscribe();
-    this.suscriptionRecipes.unsubscribe();
+    // this.suscriptionRecipes.unsubscribe();
   }
 }

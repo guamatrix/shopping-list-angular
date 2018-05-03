@@ -1,5 +1,6 @@
 import { Ingredient } from '../../shared/ingredient.module';
 import * as ShoppingListActions from './shoppin-list.actions';
+import { AppState } from '../../store/app.reducer';
 
 export interface State {
   ingredients: Ingredient[];
@@ -24,6 +25,7 @@ const initialState: State = {
 export function shoppingListReducer(state = initialState, action: ShoppingListActions.ShoppingListActions) {
   switch (action.type) {
     case ShoppingListActions.SELECT_INGREDIENT:
+      console.log(state);
       return {
         ...state,
         indexSelected: action.payload

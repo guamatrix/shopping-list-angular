@@ -33,7 +33,11 @@ export class StoreService {
   }
 
   saveStore() {
-    const recipes: Recipe[] = this.recipeService.getRecipes();
-    return this.http.put(URL, recipes);
+    this.recipeService.getRecipes().subscribe(
+      (recipes: Recipe[]) => {
+        return this.http.put(URL, recipes);
+      }
+    );
   }
 }
+

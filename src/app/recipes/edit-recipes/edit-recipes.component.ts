@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 
 import { ReceipesServices } from '../recipes.service';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Ingredient } from '../../shared/ingredient.module';
 import { Recipe } from '../recipe.model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-edit-recipes',
   templateUrl: './edit-recipes.component.html',
   styleUrls: ['./edit-recipes.component.css']
 })
-export class EditRecipesComponent implements OnInit {
+export class EditRecipesComponent implements OnInit, OnDestroy {
   isEdit = false;
   indexEdit: number;
   recipeForm: FormGroup;
   ingredientsInputs: FormArray;
+  // subscription =  new Subscription();
+  subscription: Subscription;
 
   constructor(private recipeService: ReceipesServices,
     private routingActive: ActivatedRoute,
@@ -26,6 +30,7 @@ export class EditRecipesComponent implements OnInit {
       (params) => {
         this.indexEdit = +params.id;
         this.isEdit = params.id != null;
+        this.recipeService.onSelectRecipe(this.isEdit ? this.indexEdit : -1);
         this.initForm();
       }
     );
@@ -53,21 +58,26 @@ export class EditRecipesComponent implements OnInit {
     let imgPath = '';
     this.ingredientsInputs = new FormArray([]);
     if (this.isEdit) {
-      const recipe = this.recipeService.getRecipe(this.indexEdit);
-      name = recipe.name;
-      description = recipe.description;
-      imgPath = recipe.imgPath;
-      recipe.ingredients.map(ingredient => {
-        this.ingredientsInputs.push(
-          new FormGroup({
-            name: new FormControl(ingredient.name, Validators.required),
-            amount: new FormControl(ingredient.amount, [
-              Validators.required,
-              Validators.pattern(/^[1-9]+[0-9]*$/)
-            ])
-          })
-        );
-      });
+      this.subscription = this.recipeService.getRecipe().subscribe(
+        (state: {recipe: Recipe, index: number}) => {
+          if (state.index > -1) {
+            name = state.recipe.name;
+            description = state.recipe.description;
+            imgPath = state.recipe.imgPath;
+            state.recipe.ingredients.map(ingredient => {
+              this.ingredientsInputs.push(
+                new FormGroup({
+                  name: new FormControl(ingredient.name, Validators.required),
+                  amount: new FormControl(ingredient.amount, [
+                    Validators.required,
+                    Validators.pattern(/^[1-9]+[0-9]*$/)
+                  ])
+                })
+              );
+            });
+          }
+        }
+      );
     }
     this.recipeForm = new FormGroup({
       name: new FormControl(name, Validators.required),
@@ -84,18 +94,18 @@ export class EditRecipesComponent implements OnInit {
 
   addRecipe(recipe: Recipe) {
     this.recipeService.addRecipe(recipe);
-    this.recipeService.recipeSelect.next(-1);
   }
 
-  upDateRecipe(index: number, recipe: Recipe) {
-    this.recipeService.upDateRecipe(index, recipe);
+  upDateRecipe(recipe: Recipe) {
+    this.recipeService.upDateRecipe(recipe);
+    this.router.navigate(['home'], { relativeTo: this.routingActive });
   }
 
   onSubmit(recipeForm) {
     console.log(recipeForm.value);
     const recipe: Recipe = recipeForm.value;
     if (this.isEdit) {
-      this.upDateRecipe(this.indexEdit, recipe);
+      this.upDateRecipe(recipe);
     } else {
       this.addRecipe(recipe);
     }
@@ -105,5 +115,11 @@ export class EditRecipesComponent implements OnInit {
 
   onDeleteIngredient(index: number) {
     this.ingredientsInputs.removeAt(index);
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

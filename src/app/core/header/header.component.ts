@@ -28,12 +28,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSaveData() {
-    this.storeSerive.saveStore()
-    .subscribe(
-      (response: Response) => {
-        console.log(response);
-      }
-    );
+    this.storeSerive.saveStore();
+    // .subscribe(
+    //   (response: Response) => {
+    //     console.log(response);
+    //   }
+    // );
   }
 
   onFetchData() {

@@ -16,7 +16,7 @@ export class RecipesDetailComponent implements OnInit, OnDestroy {
   detail: Recipe;
   indexRecipe: number;
   isLogged: boolean;
-  subscription: Subscription;
+  subscription: Subscription[] = [];
   constructor(private recipesService: ReceipesServices,
     private router: Router,
     private routingActive: ActivatedRoute,
@@ -27,18 +27,25 @@ export class RecipesDetailComponent implements OnInit, OnDestroy {
     this.routingActive.params.subscribe(
       (params) => {
         this.indexRecipe = +params.id;
-        this.detail = this.recipesService.getRecipe(this.indexRecipe);
+        this.recipesService.onSelectRecipe(this.indexRecipe);
+        this.subscription.push(this.recipesService.getRecipe().subscribe(
+          (state: { recipe: Recipe, index: number }) => {
+            this.detail = state.recipe;
+          }
+        ));
       }
     );
 
-    this.subscription = this.authService.isAuth().subscribe(
-      (isAuth: boolean) => this.isLogged = isAuth
-    );
+    this.subscription.push(this.authService.isAuth().subscribe(
+      (isAuth: boolean) => {
+        console.log(isAuth);
+        this.isLogged = isAuth;
+      }
+    ));
   }
 
   onAddIngredient() {
     this.recipesService.addIngredientsToSL(this.detail.ingredients);
-    // this.router.navigate(['../'], { relativeTo: this.routingActive });
   }
 
   onEdit() {
@@ -46,11 +53,11 @@ export class RecipesDetailComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.recipesService.deleteRecipe(this.indexRecipe);
+    this.recipesService.deleteRecipe();
     this.router.navigate(['../'], { relativeTo: this.routingActive });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription.map(sub => sub.unsubscribe());
   }
 }

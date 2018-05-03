@@ -7,6 +7,10 @@ export interface State {
   recipeSelected: number;
 }
 
+export interface StateRecipe {
+  recipesList: State;
+}
+
 const initialState: State = {
   recipeSelected: -1,
   recipes: [
@@ -38,13 +42,13 @@ export function recipeReducer(state = initialState, action: RecipeActions.Recipe
     case RecipeActions.SELECT_RECIPE:
       return {
         ...state,
-        selectedRecipe: action.payload
+        recipeSelected: action.payload
       };
 
     case RecipeActions.INIT_RECIPE:
       return {
         ...state,
-        selectedRecipe: -1
+        recipeSelected: -1
       };
 
     case RecipeActions.ADD_RECIPE:
@@ -59,7 +63,7 @@ export function recipeReducer(state = initialState, action: RecipeActions.Recipe
       return {
         ...state,
         recipes: deletedRecipe,
-        selectedRecipe: -1
+        recipeSelected: -1
       };
 
     case RecipeActions.UPDATE_RECIPE:
@@ -68,7 +72,7 @@ export function recipeReducer(state = initialState, action: RecipeActions.Recipe
       return {
         ...state,
         recipes: updatedRecipes,
-        selectedRecipe: -1
+        recipeSelected: -1
       };
 
     default:

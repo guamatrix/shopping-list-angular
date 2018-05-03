@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -22,6 +22,7 @@ import { reducers } from './store/app.reducer';
       maxAge: 25,
       logOnly: environment.production
     }) : [],
+    // StoreRouterConnectingModule
     // StoreRouterConnectingModule.forRoot({
     //   stateKey: 'router',
     // }),
