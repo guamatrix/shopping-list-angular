@@ -5,7 +5,7 @@ import { Recipe } from '../recipe.model';
 import { ReceipesServices } from '../recipes.service';
 import { Ingredient } from '../../shared/ingredient.module';
 import { AuthService } from '../../auth/auth.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipes-detail',

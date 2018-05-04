@@ -6,7 +6,7 @@ import { ReceipesServices } from '../recipes.service';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Ingredient } from '../../shared/ingredient.module';
 import { Recipe } from '../recipe.model';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-recipes',

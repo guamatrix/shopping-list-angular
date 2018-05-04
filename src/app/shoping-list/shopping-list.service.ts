@@ -1,5 +1,5 @@
 import { Ingredient } from '../shared/ingredient.module';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 

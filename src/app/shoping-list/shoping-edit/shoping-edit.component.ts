@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Ingredient } from '../../shared/ingredient.module';
 import { ShoppingListService } from '../shopping-list.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { State } from '../store/shoppin-list.reducer';
 import { selectedIngredient } from '../store/shopping-list.selectors';
 

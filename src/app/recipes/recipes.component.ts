@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 import { Recipe } from './recipe.model';
 import { ReceipesServices } from './recipes.service';
-import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 import { StateRecipe } from './store/recipe.reducer';
 
@@ -12,7 +11,7 @@ import { StateRecipe } from './store/recipe.reducer';
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css'],
 })
-export class RecipesComponent implements OnInit, OnDestroy {
+export class RecipesComponent implements OnInit  {
   recipes: Recipe[];
   suscriptionRecipes: Subscription;
 
@@ -24,9 +23,5 @@ export class RecipesComponent implements OnInit, OnDestroy {
         this.recipes = recipes;
       }
     );
-  }
-
-  ngOnDestroy() {
-    // this.suscriptionRecipes.unsubscribe();
   }
 }

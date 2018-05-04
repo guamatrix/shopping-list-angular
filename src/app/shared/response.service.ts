@@ -1,5 +1,4 @@
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs';
 
 export class ResponseService {
   fireResponse = new Subject<{ok: boolean, menssage: string}>();

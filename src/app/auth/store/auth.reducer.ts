@@ -1,6 +1,5 @@
 import * as ActionsAuth from './auth.actions';
 import { User } from '../../shared/user.model';
-import { Action } from 'rxjs/scheduler/Action';
 
 export interface State {
   user: User;

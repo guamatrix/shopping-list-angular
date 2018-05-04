@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ResponseService } from '../../shared/response.service';
 import { AuthService } from '../auth.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
